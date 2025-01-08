@@ -42,10 +42,20 @@ public class Reservation {
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS); // converte para dias
 	}
 	
-	public void updateDate(Date newCheckIn, Date newCheckOut) {
+	public String updateDate(Date newCheckIn, Date newCheckOut) {
+		Date now = new Date();
+		if(checkIn.before(now) || checkOut.before(now)) {
+			return "Check-out date must be after check-in date";
+		}
+		if(!checkOut.after(checkIn)) {
+			return "Reservation dates for update must be future dates";
+		}
 		this.checkIn = newCheckIn;
 		this.checkOut = newCheckOut;
+		return null;
 	}
+	
+	
 	
 	@Override
 	public String toString() {
@@ -60,4 +70,5 @@ public class Reservation {
 				+ " nights";
 
 	}
+	
 }
